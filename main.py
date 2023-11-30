@@ -12,6 +12,9 @@ df_rooute_3_loans = ('C:/Users/alejo/Desktop/pythonProject4/loans.csv')
 
 
 def book_load():
+    """
+    this function returns the authors with the clean data to a sql table
+    """
     book_df = df.loc[:, ['published_year', 'book_title', 'author_name']]
 
     book_df.loc[
@@ -31,6 +34,9 @@ def book_load():
 
 
 def authors_load():
+    """
+    this function returns the authors_loads with the clean data to a sql table
+    """
     author_df = df.loc[:, ['author_name']]
 
     author_df = author_df.drop_duplicates(subset=['author_name'])
@@ -40,6 +46,9 @@ def authors_load():
 
 
 def students_load():
+    """
+    this function returns the students_load with the clean data to a sql table
+    """
     student_df = df.loc[:, ['student_name', 'student_email']]
     student_df = student_df.drop_duplicates(subset=['student_email'])
     student_df = student_df.rename(columns={'student_name': 'name_student', 'student_email': 'email'})
@@ -48,6 +57,9 @@ def students_load():
 
 
 def book_filter_for_authors():
+    """
+    clean the data of the books to be able to join them later in the intermediate table
+    """
     book_df = df.loc[:, ['book_title', 'author_name']]
     book_df = book_df.drop_duplicates(subset=['book_title', 'author_name'])
     book_df = book_df.rename(columns={'book_title': 'name_book'})
@@ -69,6 +81,9 @@ df_authors = df_authors.rename(columns={'id': 'author_id'})
 
 
 def inner_books_author_id():
+    """
+    inner the tables
+    """
     inner_var_book = pd.merge(date_book_inner, df_books, on='name_book', how='inner')
     inner_var_book_authors = pd.merge(inner_var_book, df_authors, on='name_author', how='inner')
 
@@ -87,6 +102,9 @@ df_student = pd.read_csv(df_rooute_2_students, delimiter=';', encoding=encoding)
 
 
 def inner_student_loans():
+    """
+    clean the data of the books to be able to join them later in the intermediate table
+    """
     loans_df = df.loc[:, ['student_email', 'loan_date', 'return_date']]
     loans_df = loans_df.drop_duplicates(subset=['student_email'])
     loans_df = loans_df.rename(columns={'student_email': 'email'})
